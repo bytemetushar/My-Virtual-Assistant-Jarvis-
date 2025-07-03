@@ -3,13 +3,13 @@ import bg from '../assets/p3.jpg'
 import {IoEye} from 'react-icons/io5'
 import {IoEyeOff} from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom';
-import { userDataContext } from '../context/useContext';
+import { userDataContext } from '../context/userContext';
 import toast from 'react-hot-toast';
 import axios from 'axios'
 
 function SignUp(){
 
-    const {serverUrl} = useContext(userDataContext);
+    const {serverUrl, userData, setUserData} = useContext(userDataContext);
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     const [name, setName] = useState("");
@@ -27,20 +27,22 @@ function SignUp(){
             const res = await axios.post(`${serverUrl}/api/auth/signup`,{
                 name, email, password
             },{withCredentials:true});
-            console.log(res);
+            
+            setUserData(res?.data);
 
             if(res?.data?.success){
                 setName("")
                 setEmail("")
                 setPassword("")
                 toast.success(res?.data?.message);
-                navigate("/signin");
+                navigate("/customize");
             }
             
             
             
         }catch(error){
             toast.error(error?.response?.data?.message);
+            setUserData(null);
         }
     }
 
