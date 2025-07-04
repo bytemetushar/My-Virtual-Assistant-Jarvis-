@@ -9,7 +9,7 @@ import axios from 'axios'
 
 function SignIn(){
 
-    const {serverUrl, userdata, SetUserData} = useContext(userDataContext);
+    const {serverUrl, userdata, setUserData} = useContext(userDataContext);
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
@@ -18,7 +18,7 @@ function SignIn(){
     const handleSignIn = async(e)=>{
         e.preventDefault();
         try{
-            if(! email || !password){
+            if(!email || !password){
                 toast.error("All fields are mendetory!!");
                 return;
             }
@@ -27,18 +27,18 @@ function SignIn(){
                 email, password
             },{withCredentials:true});
         
-            SetUserData(res?.data);
+            
             if(res?.data?.success){
                 setEmail("")
                 setPassword("")
                 toast.success(res?.data?.message);
-                navigate("/");
             }
-            
-            
-            
+            setUserData(res?.data);
+            navigate("/");
+
+
         }catch(error){
-            SetUserData(null);
+            setUserData(null);
             toast.error(error?.response?.data?.message);
         }
     }

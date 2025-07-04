@@ -1,7 +1,7 @@
 import { v2 as cloudinary } from 'cloudinary';
 import fs from 'fs'
 
-const uploadCloudinary = async (filePath)=>{
+const uploadOnCloudinary = async (filePath)=>{
     cloudinary.config({ 
         cloud_name: process.env.CLOUD_NAME, 
         api_key: process.env.CLOUD_API_KEY, 
@@ -17,3 +17,5 @@ const uploadCloudinary = async (filePath)=>{
         return res.status(500).json({message:"Cloudinary Error"}) 
     }
 }
+
+export default uploadOnCloudinary;
